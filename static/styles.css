@@ -1,0 +1,10 @@
+body { font-family: sans-serif; background: #fafafa; margin: 0; padding: 0; }
+#container { display: flex; padding: 20px; }
+#current-number { text-align: center; margin-right: 40px; }
+#number-display { font-size: 100px; margin: 0 0 20px 0; }
+#draw-button { padding: 10px 20px; font-size: 18px; }
+#card { width: 300px; }
+#card h2 { text-align: center; }
+#numbers { display: grid; grid-template-columns: repeat(5, 1fr); grid-gap: 5px; }
+.num { display: block; padding: 5px; text-align: center; border: 1px solid #000; background: #fff; color: #000; }
+.num.drawn { background: #8a2be2; color: #fff; }

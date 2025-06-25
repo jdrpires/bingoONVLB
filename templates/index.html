@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>Bingo</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div id="container">
+        <div id="current-number">
+            <h1 id="number-display">--</h1>
+            <button id="draw-button">Sortear</button>
+        </div>
+        <div id="card">
+            <h2>BINGO</h2>
+            <div id="numbers">
+                {% for n in numbers %}
+                <span class="num {% if n in drawn %}drawn{% endif %}" data-num="{{n}}">{{n}}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+<script src="/static/script.js"></script>
+</body>
+</html>
