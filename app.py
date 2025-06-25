@@ -39,5 +39,14 @@ def draw():
     return jsonify({'number': number})
 
 
+<<<<<<< 5uoney-codex/criar-sistema-de-bingo-com-ia-em-python
+@app.route('/reset', methods=['POST'])
+def reset():
+    drawn_numbers.clear()
+    return jsonify({'status': 'ok'})
+
+
+=======
+>>>>>>> main
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
