@@ -21,3 +21,4 @@ Aplicação simples de Bingo com integração opcional ao GPT via API da OpenAI.
 4. Acesse `http://localhost:5000` no navegador.
 
 Pressione **Sortear** para gerar um número. Os números sorteados aparecem em roxo na cartela.
+Use o botão **Resetar** para reiniciar o jogo e limpar os números já sorteados.
