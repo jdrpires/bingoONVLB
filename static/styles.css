@@ -2,10 +2,14 @@ body { font-family: sans-serif; background: #fafafa; margin: 0; padding: 0; }
 #container { display: flex; padding: 20px; }
 #current-number { text-align: center; margin-right: 40px; }
 #number-display { font-size: 100px; margin: 0 0 20px 0; }
+<<<<<<< msyvg7-codex/criar-sistema-de-bingo-com-ia-em-python
+#draw-button, #reset-button { padding: 10px 20px; font-size: 18px; }
+=======
 <<<<<<< 5uoney-codex/criar-sistema-de-bingo-com-ia-em-python
 #draw-button, #reset-button { padding: 10px 20px; font-size: 18px; }
 =======
 #draw-button { padding: 10px 20px; font-size: 18px; }
+>>>>>>> main
 >>>>>>> main
 #card { width: 300px; }
 #card h2 { text-align: center; }
