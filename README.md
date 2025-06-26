@@ -20,12 +20,9 @@ Aplicação simples de Bingo com integração opcional ao GPT via API da OpenAI.
    ```
 4. Acesse `http://localhost:5000` no navegador.
 
+Pressione **Sortear** para gerar um número. Uma animação embaralha os valores
+na tela antes de exibir o sorteado, que fica marcado em roxo na cartela.
+Use o botão **Resetar** para reiniciar o jogo e limpar os números já sorteados.
 Pressione **Sortear** para gerar um número. Os números sorteados aparecem em roxo na cartela.
-<<<<<<< msyvg7-codex/criar-sistema-de-bingo-com-ia-em-python
 Use o botão **Resetar** para reiniciar o jogo e limpar os números já sorteados.
-=======
-<<<<<<< 5uoney-codex/criar-sistema-de-bingo-com-ia-em-python
 Use o botão **Resetar** para reiniciar o jogo e limpar os números já sorteados.
-=======
->>>>>>> main
->>>>>>> main
