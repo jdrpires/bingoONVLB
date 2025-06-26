@@ -23,3 +23,6 @@ Aplicação simples de Bingo com integração opcional ao GPT via API da OpenAI.
 Pressione **Sortear** para gerar um número. Uma animação embaralha os valores
 na tela antes de exibir o sorteado, que fica marcado em roxo na cartela.
 Use o botão **Resetar** para reiniciar o jogo e limpar os números já sorteados.
+Pressione **Sortear** para gerar um número. Os números sorteados aparecem em roxo na cartela.
+Use o botão **Resetar** para reiniciar o jogo e limpar os números já sorteados.
+Use o botão **Resetar** para reiniciar o jogo e limpar os números já sorteados.
