@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}{{ bingo.name }} · BingoON{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('main.dashboard') }}">← Voltar ao painel</a>
+<section class="game-heading">
+    <div>
+        <span class="eyebrow">Bingo do organizador</span>
+        <h1>{{ bingo.name }}</h1>
+    </div>
+    {% if bingo.active_round %}
+        <form method="post" action="{{ url_for('main.finish_round', bingo_id=bingo.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-ghost" type="submit">Encerrar rodada</button>
+        </form>
+    {% else %}
+        <form method="post" action="{{ url_for('main.create_round', bingo_id=bingo.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button class="button button-primary" type="submit">Iniciar nova rodada</button>
+        </form>
+    {% endif %}
+</section>
+
+<div class="public-link-bar">
+    <div>
+        <strong>Tela pública</strong>
+        <span>Abra em um telão ou compartilhe com os participantes.</span>
+    </div>
+    <a class="button button-ghost button-link" href="{{ url_for('main.public_bingo', public_id=bingo.public_id) }}" target="_blank">Abrir tela pública ↗</a>
+</div>
+
+{% if bingo.active_round %}
+    {% set round = bingo.active_round %}
+    <div class="round-toolbar">
+        <span class="status-badge status-{{ round.status }}">
+            {% if round.status == "active" %}Em andamento{% elif round.status == "paused" %}Pausada{% else %}Conferindo BINGO{% endif %}
+        </span>
+        <div class="toolbar-actions">
+            {% if round.status == "active" %}
+                <form method="post" action="{{ url_for('main.pause_round', bingo_id=bingo.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="button button-ghost" type="submit">Pausar</button>
+                </form>
+                <form method="post" action="{{ url_for('main.check_bingo', bingo_id=bingo.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="button button-bingo" type="submit">BINGO anunciado</button>
+                </form>
+            {% else %}
+                <form method="post" action="{{ url_for('main.resume_round', bingo_id=bingo.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="button button-primary" type="submit">Retomar sorteio</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    <section class="game-layout">
+        <div class="panel draw-panel">
+            <span class="round-label">Rodada {{ round.number }} · {{ round.draws|length }}/75</span>
+            <div class="current-call">
+                {% if round.draws %}<small>{{ round.draws[-1].letter }}</small>{{ round.last_number }}{% else %}—{% endif %}
+            </div>
+            <form method="post" action="{{ url_for('main.draw_number', bingo_id=bingo.id) }}" data-lock-submit>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button class="button button-primary draw-button" type="submit" data-loading-text="Sorteando…" {% if round.draws|length == 75 or round.status != "active" %}disabled{% endif %}>
+                    {% if round.draws|length == 75 %}Todos sorteados{% elif round.status != "active" %}Sorteio pausado{% else %}Sortear número{% endif %}
+                </button>
+            </form>
+            {% if round.draws %}
+                <div class="recent-draws">
+                    <span>Últimos:</span>
+                    {% for draw in round.draws[-5:]|reverse %}<b>{{ draw.letter }}-{{ draw.number }}</b>{% endfor %}
+                </div>
+                <form method="post" action="{{ url_for('main.undo_last_draw', bingo_id=bingo.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="text-button" type="submit" data-confirm="Desfazer o último número sorteado? Esta ação ficará registrada na auditoria.">Desfazer último sorteio</button>
+                </form>
+            {% endif %}
+        </div>
+        <div class="panel board-panel">
+            <div class="board-title"><span>B</span><span>I</span><span>N</span><span>G</span><span>O</span></div>
+            <div class="number-board">
+                {% for number in numbers %}
+                    <span class="board-number {% if number in round.drawn_numbers %}is-drawn{% endif %}">{{ number }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% if round.draws %}
+        <section class="draw-log-section">
+            <div class="section-heading-inline">
+                <h2>Registro dos sorteios</h2>
+                <a href="{{ url_for('main.export_round_csv', bingo_id=bingo.id, round_id=round.id) }}">Baixar ata completa</a>
+            </div>
+            <div class="draw-log">
+                {% for draw in round.draws|reverse %}
+                    <div>
+                        <strong>{{ draw.position }}º</strong>
+                        <span class="draw-call">{{ draw.letter }}-{{ draw.number }}</span>
+                        <time datetime="{{ draw.created_at.isoformat() }}">{{ draw.created_at.strftime("%d/%m/%Y %H:%M:%S") }} UTC</time>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+{% else %}
+    <section class="panel empty-state">
+        <div class="empty-icon">{{ bingo.rounds|length + 1 }}</div>
+        <h2>Nenhuma rodada em andamento</h2>
+        <p>Inicie uma nova rodada para liberar o painel de sorteio.</p>
+    </section>
+{% endif %}
+
+{% if bingo.rounds %}
+    <section class="history-section">
+        <h2>Histórico de rodadas</h2>
+        <div class="history-list">
+            {% for round in bingo.rounds %}
+                <div class="history-row">
+                    <strong>Rodada {{ round.number }}</strong>
+                    <span>{{ round.draws|length }} números sorteados</span>
+                    <span class="round-status">
+                        {% if round.status == "active" %}Em andamento{% elif round.status == "paused" %}Pausada{% elif round.status == "checking" %}Em conferência{% else %}Encerrada{% endif %}
+                    </span>
+                    <a href="{{ url_for('main.export_round_csv', bingo_id=bingo.id, round_id=round.id) }}">Baixar ata CSV</a>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endif %}
+{% endblock %}

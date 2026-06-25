@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ bingo.name }} · Tela pública</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v='code-synergy-2') }}">
+</head>
+<body class="public-body" data-state-url="{{ url_for('main.public_bingo_state', public_id=bingo.public_id) }}">
+    <button id="fullscreen-button" class="fullscreen-button" type="button">Tela cheia</button>
+    <button id="sound-button" class="sound-button" type="button">Ativar voz</button>
+    <main class="public-game">
+        <header class="public-header">
+            <div class="public-brand-stack">
+                <div class="brand"><span class="brand-mark">B</span><span>BingoON</span></div>
+            </div>
+            <div>
+                <span class="eyebrow">Ao vivo</span>
+                <h1>{{ bingo.name }}</h1>
+            </div>
+            <span id="public-round" class="public-round">Aguardando rodada</span>
+        </header>
+
+        <section class="public-layout">
+            <div class="public-current">
+                <img class="public-main-logo" src="{{ url_for('static', filename='code-synergy-logo.png') }}" alt="Code Synergy">
+                <span class="public-label">Número sorteado</span>
+                <div id="public-ball" class="current-call public-ball">
+                    <small id="public-letter"></small>
+                    <span id="public-number">—</span>
+                </div>
+                <p id="public-message">Aguardando o organizador iniciar a rodada.</p>
+                <p id="remaining-count" class="remaining-count">75 números restantes</p>
+            </div>
+            <div class="panel board-panel public-board">
+                <div class="board-title"><span>B</span><span>I</span><span>N</span><span>G</span><span>O</span></div>
+                <div id="public-number-board" class="number-board">
+                    {% for number in numbers %}
+                        <span class="board-number" data-number="{{ number }}">{{ number }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <footer class="public-footer">Tecnologia Code Synergy · Software House · IA · Automação inteligente</footer>
+    </main>
+    <script src="{{ url_for('static', filename='public-game.js', v='3') }}"></script>
+</body>
+</html>
