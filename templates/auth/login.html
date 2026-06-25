@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Entrar · BingoON{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="hero-copy">
+        <span class="eyebrow">BingoON + Code Synergy</span>
+        <h1>Rodadas organizadas, rápidas e sem números repetidos.</h1>
+        <p>Entre para criar salas, conduzir sorteios e manter o histórico de cada rodada.</p>
+        <div class="technology-signature">
+            <span>Tecnologia desenvolvida por</span>
+            <img src="{{ url_for('static', filename='code-synergy-logo.png') }}" alt="Code Synergy">
+        </div>
+    </div>
+    <div class="panel auth-card">
+        <h2>Entrar</h2>
+        <p class="muted">Acesse seu painel de bingos.</p>
+        <form method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="field">
+                {{ form.email.label }}
+                {{ form.email(autocomplete="email", placeholder="voce@exemplo.com") }}
+                {% for error in form.email.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            <div class="field">
+                {{ form.password.label }}
+                {{ form.password(autocomplete="current-password", placeholder="Sua senha") }}
+                {% for error in form.password.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            {{ form.submit(class="button button-primary button-block") }}
+        </form>
+        <p class="auth-switch">Ainda não tem conta? <a href="{{ url_for('auth.register') }}">Criar conta</a></p>
+    </div>
+</section>
+{% endblock %}

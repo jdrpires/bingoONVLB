@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Novo bingo · BingoON{% endblock %}
+{% block content %}
+<section class="narrow-page">
+    <a class="back-link" href="{{ url_for('main.dashboard') }}">← Voltar ao painel</a>
+    <div class="panel form-panel">
+        <span class="eyebrow">Novo bingo</span>
+        <h1>Como vamos chamar este bingo?</h1>
+        <p class="muted">Você poderá realizar várias rodadas dentro dele.</p>
+        <form method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="field">
+                {{ form.name.label }}
+                {{ form.name(autofocus=true, placeholder="Ex.: Bingo beneficente") }}
+                {% for error in form.name.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            {{ form.submit(class="button button-primary") }}
+        </form>
+    </div>
+</section>
+{% endblock %}

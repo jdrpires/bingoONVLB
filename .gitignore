@@ -49,6 +49,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
+tmp/pdfs/
 cover/
 
 # Translations
@@ -192,3 +193,9 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
+__pycache__/
+*.py[cod]
+.venv/
+.env
+instance/
+.pytest_cache/

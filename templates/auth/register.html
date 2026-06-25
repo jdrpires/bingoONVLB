@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Criar conta · BingoON{% endblock %}
+{% block content %}
+<section class="auth-layout">
+    <div class="hero-copy">
+        <span class="eyebrow">BingoON + Code Synergy</span>
+        <h1>Uma central moderna para suas rodadas de bingo.</h1>
+        <p>Crie sua conta de organizador e mantenha cada bingo separado e seguro.</p>
+        <div class="technology-signature">
+            <span>Tecnologia desenvolvida por</span>
+            <img src="{{ url_for('static', filename='code-synergy-logo.png') }}" alt="Code Synergy">
+        </div>
+    </div>
+    <div class="panel auth-card">
+        <h2>Criar conta</h2>
+        <p class="muted">Use uma senha com pelo menos 8 caracteres.</p>
+        <form method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="field">
+                {{ form.name.label }}
+                {{ form.name(autocomplete="name", placeholder="Seu nome") }}
+                {% for error in form.name.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            <div class="field">
+                {{ form.email.label }}
+                {{ form.email(autocomplete="email", placeholder="voce@exemplo.com") }}
+                {% for error in form.email.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            <div class="field">
+                {{ form.password.label }}
+                {{ form.password(autocomplete="new-password", placeholder="Mínimo de 8 caracteres") }}
+                {% for error in form.password.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            <div class="field">
+                {{ form.password_confirmation.label }}
+                {{ form.password_confirmation(autocomplete="new-password", placeholder="Repita a senha") }}
+                {% for error in form.password_confirmation.errors %}<span class="field-error">{{ error }}</span>{% endfor %}
+            </div>
+            {{ form.submit(class="button button-primary button-block") }}
+        </form>
+        <p class="auth-switch">Já possui conta? <a href="{{ url_for('auth.login') }}">Entrar</a></p>
+    </div>
+</section>
+{% endblock %}

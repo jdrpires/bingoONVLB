@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Painel · BingoON{% endblock %}
+{% block content %}
+<section class="dashboard-heading">
+    <div>
+        <span class="eyebrow">Painel do organizador</span>
+        <h1>Seus bingos</h1>
+        <p class="muted">Crie, acompanhe e retome suas rodadas.</p>
+    </div>
+    <a class="button button-primary button-link" href="{{ url_for('main.create_bingo') }}">Criar bingo</a>
+</section>
+
+{% if bingos %}
+    <section class="bingo-grid">
+        {% for bingo in bingos %}
+            <a class="panel bingo-card" href="{{ url_for('main.bingo_detail', bingo_id=bingo.id) }}">
+                <div class="bingo-card-top">
+                    <span class="status-dot {% if bingo.active_round %}status-active{% endif %}"></span>
+                    <span>{{ "Rodada em andamento" if bingo.active_round else "Pronto para iniciar" }}</span>
+                </div>
+                <h2>{{ bingo.name }}</h2>
+                <p>{{ bingo.rounds|length }} rodada{{ "s" if bingo.rounds|length != 1 else "" }}</p>
+                <span class="card-action">Abrir bingo →</span>
+            </a>
+        {% endfor %}
+    </section>
+{% else %}
+    <section class="panel empty-state">
+        <div class="empty-icon">75</div>
+        <h2>Crie seu primeiro bingo</h2>
+        <p>Depois você poderá iniciar quantas rodadas precisar e manter todo o histórico.</p>
+        <a class="button button-primary button-link" href="{{ url_for('main.create_bingo') }}">Criar agora</a>
+    </section>
+{% endif %}
+{% endblock %}
