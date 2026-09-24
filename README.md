@@ -1,9 +1,37 @@
 # BingoON
 
-Sistema web para organizadores criarem bingos e conduzirem rodadas com sorteios
-sem repetição.
+> Web application for creating bingo sessions and conducting non-repeating draws.
 
-## Desenvolvimento
+**Python · Flask · PostgreSQL/SQLite · Pytest · Docker · Gunicorn**
+
+| | |
+|---|---|
+| **Type** | Web application |
+| **Focus** | Stateful game sessions and deterministic operational flow |
+| **Architecture** | Flask web app + relational persistence |
+| **Status** | Public technical project |
+
+## Overview
+
+BingoON allows organizers to create bingo sessions and conduct rounds while ensuring drawn numbers are not repeated.
+
+The project is intentionally conventional: randomness belongs to application logic and does not require an AI service.
+
+## Architecture
+
+```text
+Organizer
+   │
+   ▼
+Flask Web App
+   │
+   ├── Session / Draw Logic
+   └── Persistence
+           │
+     SQLite / PostgreSQL
+```
+
+## Development
 
 ```bash
 python3 -m venv .venv
@@ -13,40 +41,38 @@ cp .env.example .env
 flask --app app run --port 5002
 ```
 
-Acesse `http://localhost:5002`.
+Open `http://localhost:5002`.
 
-## Testes
+## Tests
 
 ```bash
 pytest
 ```
 
-## Configuração
+## Configuration
 
-- `SECRET_KEY`: chave usada para proteger sessão e formulários.
-- `DATABASE_URL`: conexão do banco. O padrão local é SQLite; produção deve usar
-  PostgreSQL.
+- `SECRET_KEY` — protects application sessions and forms.
+- `DATABASE_URL` — database connection. SQLite can be used locally; PostgreSQL is recommended for persistent production environments.
 
-O sorteio dos números é realizado pela própria aplicação. Não é necessário usar
-uma API de inteligência artificial para garantir aleatoriedade.
+## Production
 
-## Produção
-
-O projeto inclui `Dockerfile` e configuração do Gunicorn. Para produção:
-
-- configure `APP_ENV=production`;
-- gere uma `SECRET_KEY` longa e aleatória;
-- configure `DATABASE_URL` com uma conexão PostgreSQL;
-- exponha a porta indicada pela variável `PORT`;
-- use `/health` como endpoint de verificação.
-
-Exemplo local com Docker:
+The repository includes Docker and Gunicorn support.
 
 ```bash
 docker build -t bingo-on .
 docker run --rm -p 5002:5002 \
   -e APP_ENV=production \
-  -e SECRET_KEY="uma-chave-segura" \
+  -e SECRET_KEY="<generate-a-long-random-secret>" \
   -e DATABASE_URL="sqlite:////tmp/bingo.db" \
   bingo-on
 ```
+
+For production, configure persistent storage/database infrastructure and use `/health` for service health checks.
+
+## Why this project is public
+
+BingoON is a compact example of stateful web application design, testing, containerization and production configuration.
+
+---
+
+**Jean Pires** · [GitHub](https://github.com/jdrpires) · [Portfolio](https://github.com/jdrpires/jdrpires)
